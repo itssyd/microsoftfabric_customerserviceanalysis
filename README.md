@@ -1,4 +1,4 @@
-# Customer Service Analysis with Microsoft Fabric
+![image](https://github.com/itssyd/microsoftfabric_customerserviceanalysis/assets/140058645/fefab6b9-403d-487e-a7cf-b5e5aaeef873)# Customer Service Analysis with Microsoft Fabric
 This GitHub Repo intends to give an example how to use Microsoft Fabric for the end to end scenario of getting insights into the performance of the sample data set [Call Center Data from Kaggle](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download)
 
 ###### Disclaimer: In order to replicate this analysis, you need to sign up for [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial)
@@ -35,12 +35,15 @@ Verify that the data is uploaded successuflly by clicking the "Refresh" icon and
 Once the data is uploaded, it can be used and processed by other engines within Fabric, e.g. the SQL engine in the Data Warehouse workload or the KQL engine in the Real-Time Analytics workload etc. For example, merging and pre-processing different dataset can be achieved with code in a Spark Notebook inside the [Synapse Data Engineering experience](https://learn.microsoft.com/en-us/fabric/data-engineering/data-engineering-overview) and/or via the no-/low-code approach of Data Flows Gen2 insith the [Data Factory workload](https://learn.microsoft.com/en-us/fabric/data-factory/create-first-dataflow-gen2). We will first process the csv file of "File" section and then load it into a table into the "Table" section with a Spark Notebook. 
 
 Create a Notebook
+
 ![alt_text](media/createnotebook.png)
 
 Make sure your Lakehouse is attached and you selected PySpark (Python) as the language
+
 ![alt text](media/processcsv.png)
 
 Insert and run the following code
+
 ```Python
 #import pandas and read the call center csv file from the Lakehouse
 import pandas as pd
@@ -64,6 +67,7 @@ sparkDF.write.mode("overwrite").format("delta").save("Tables/" + "callcenter_pro
 ```
 
 Verify that the file was succeffully written in the table section by clicking on the three dots next to "Tables" and hit "Refresh"
+
 ![alt text](media/verifytable.png)
 
 ### 3. Perform some Exploratory Data Analysis
@@ -95,7 +99,34 @@ We will now make use of the no-/low-code ETL feature inside of "Data Factory" to
 
 ![alt text](media/createdataflow.png)
 
-Take a look at the Table section and locate your file.
+Now we need to connect to our call center data we stored in the Table section in our Lakehouse. Click on "get data from a different source"
+
+![alt text](media/dataflowgetdata.png)
+
+Type in the search bar "Lakehouse" and click on the Lakehouse beta connector. Use the authentication kind "Organizational Account", sign in and click next.
+
+![alt text](media/connectLH.png)
+
+Navigate on the left to your Fabric Workspace > your Lakehouse (in my case CallCenter_LH) and select the callcenter_processed dataset and click create
+
+![alt text](media/connectdata.png)
+
+Now, we want to change the data type of the column "answer_rate" to decimal. Right-click on the column name, go to "change type" and click "decimal number". You will see on the right side in the Query settings field, that this step has been added.
+
+![alt text](media/todecimal.png)
+
+We will create a new column, "answer_rate_bucket", that will assign 4 different categories depending on the input from our column "answer_rate". Navigate at the tab bar to "Add column", then select "custom column" and a window will open. Change the name of the column we want to create to "answer_rate_bucket", change the Type to "Text" and add the following code into the field
+```Python
+if [answer_rate] >= 0 and [answer_rate] < 0.25 then "1"
+    else if [answer_rate] >= 0.25 and [answer_rate] < 0.5 then "2"
+    else if [answer_rate] >= 0.5 and [answer_rate] < 0.75 then "3"
+    else if [answer_rate] >= 0.75 and [answer_rate] < 1 then "4"
+    else if [answer_rate] = 1 then "100%"
+    else "Other"
+```
+![alt text](media/customcolumn.png)
+
+
 
 4. With the fil
  Here is a Notebook you can use to perform some Exploratory Data Analysis on the call center analysis data you uploaded into Fabric in step 1. PLACEHOLDER
