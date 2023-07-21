@@ -117,20 +117,27 @@ Now, we want to change the data type of the column "answer_rate" to decimal. Rig
 
 We will create a new column, "answer_rate_bucket", that will assign 4 different categories depending on the input from our column "answer_rate". Navigate at the tab bar to "Add column", then select "custom column" and a window will open. Change the name of the column we want to create to "answer_rate_bucket", change the Type to "Text" and add the following code into the field
 ```Python
-if [answer_rate] >= 0 and [answer_rate] < 0.25 then "1"
-    else if [answer_rate] >= 0.25 and [answer_rate] < 0.5 then "2"
-    else if [answer_rate] >= 0.5 and [answer_rate] < 0.75 then "3"
-    else if [answer_rate] >= 0.75 and [answer_rate] < 1 then "4"
+if [answer_rate] >= 0 and [answer_rate] < 0.25 then "0-24%"
+    else if [answer_rate] >= 0.25 and [answer_rate] < 0.5 then "25-49%"
+    else if [answer_rate] >= 0.5 and [answer_rate] < 0.75 then "50-74%"
+    else if [answer_rate] >= 0.75 and [answer_rate] < 1 then "75-99%"
     else if [answer_rate] = 1 then "100%"
     else "Other"
 ```
 ![alt text](media/customcolumn.png)
 
+Verify that the step (custom column) has been added to the flow and you can see also the column in the data preview with inputs. Now we bring this data back to the Lakehouse. On the right bottom click to add a data destination and select "Lakehouse"
+
+![alt text](images/datadestination.png)
+
+Follow the wizward to authenticate the same way you did for connecting to the data source Lakehouse earlier (beginning of Step 4). Now we will bring the data into a new table in the same Lakehouse but with a different name so we can later on identify the dataset.
+
+![alt text](images/LHdestination.png)
+
+Click on next and keep the settings are they are (Update method = replace) and the source types should be correctly identified. Click on save settings. Back on the Power Query screen, locate on the bottom right the "Publish" button and click to publish now.
 
 
-4. With the fil
- Here is a Notebook you can use to perform some Exploratory Data Analysis on the call center analysis data you uploaded into Fabric in step 1. PLACEHOLDER
-   - 
-5.  The pre-processing data can then be used (without duplication!) by the [Synapse Data Warehouse](https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing) to perform some SQL queries. This lake-centric data warehouse provides an environment for any skill level from citizen developer to DBAs or pro devs. With the always connected dataset that is integrated into PowerBI, users can achieve via the so-called Direct Lake mode, lighting-fast data visualization and report creation. With the revamped SQL engine over the open source data format, users can focus on their main tasks for data analysis.
+### 5. Create PowerBI Report
+With the always connected dataset that is integrated into PowerBI, users can achieve via the so-called Direct Lake mode, lighting-fast data visualization and report creation. With the revamped SQL engine over the open source data format, users can focus on their main tasks for data analysis.
 6.  With the processed dataset, a business analyst (or any other user obivously) can create with the [Fabric PowerBI experience](https://learn.microsoft.com/en-us/power-bi/fundamentals/fabric-get-started) a semantic business model and BI report by accessing the file directly in OneLake. Anyone knowing and having worked with PowerBI before, will feel familiar with this feature.
 
