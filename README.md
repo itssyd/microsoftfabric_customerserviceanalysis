@@ -14,13 +14,92 @@ Say suppose an organization is selling B2C products and offers customer service 
 ## Prerequisites
 - You need a Microsoft Fabric subscription or sign up for a free [Microsoft Fabric (Preview) trial](https://learn.microsoft.com/en-gb/fabric/enterprise/licenses)
 - Sign in to [Microsoft Fabric](https://fabric.microsoft.com/)
-- Use an existing Microsoft Fabric lakehouse or create a new once by following the steps in this [tutorial](https://learn.microsoft.com/en-gb/fabric/data-engineering/create-lakehouse)
+- Use an existing Microsoft Fabric Lakehouse or create a new once by following the steps in this [tutorial](https://learn.microsoft.com/en-gb/fabric/data-engineering/create-lakehouse)
 
 ## Step by Step guide for customer service analysis
-1. Load Data: Data Engineers can use the [Data Factory](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial) feature inside of Fabric to ingest, prepare and transform data from other sources and land it into OneLake. In our example, we will upload local files 
-   - In Fabric, navigate to the Data Factory experience by clicking on the icon at the bottom left (this is where you switch between the workloads)
+### 1. Load Data 
+Data Engineers can use the [Data Factory](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial) feature inside of Fabric to ingest, prepare and transform data from other sources and land it into OneLake. In our example, we will upload a local file directly into the Lakehouse
+   - In Fabric, navigate to the Data Engineering experience by clicking on the icon at the bottom left (hint: this is where you switch between all different workloads). I created the "CallCenter_LH" for our example. With the filter button on the right, you can speed up searching for specific artifacts in Fabric. I selected "Lakehouse" to only get listed all Lakehouses I created.
+     
+![alt text](media/enterLH.png)
+
+   - Find under the Home Tab "Get Data" and select "Upload files" as shown in the screenshot below. Continue with uploading the [Call Center dataset](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download) from Kaggle
+     
+![alt text](media/uploadfiles.png)
+
+Verify that the data is uploaded successuflly by clicking the "Refresh" icon and locate the csv file under the "Files" section. As the file is in csv format, it is stored under the "Files" section vs the "table" section. The File section can contains various file formats like csvs, images, parquet and more. The "Table" section contains refined and consolidated data that is ready for business analysis in the delta parquet format.
+
+![alt_text](media/uploadedfile.png)
+   
+### 2. Process Data
+Once the data is uploaded, it can be used and processed by other engines within Fabric, e.g. the SQL engine in the Data Warehouse workload or the KQL engine in the Real-Time Analytics workload etc. For example, merging and pre-processing different dataset can be achieved with code in a Spark Notebook inside the [Synapse Data Engineering experience](https://learn.microsoft.com/en-us/fabric/data-engineering/data-engineering-overview) and/or via the no-/low-code approach of Data Flows Gen2 insith the [Data Factory workload](https://learn.microsoft.com/en-us/fabric/data-factory/create-first-dataflow-gen2). We will first process the csv file of "File" section and then load it into a table into the "Table" section with a Spark Notebook. 
+
+Create a Notebook
+![alt_text](media/createnotebook.png)
+
+Make sure your Lakehouse is attached and you selected PySpark (Python) as the language
+![alt text](media/processcsv.png)
+
+Insert and run the following code
+```Python
+#import pandas and read the call center csv file from the Lakehouse
+import pandas as pd
+
+cc = pd.read_csv("/lakehouse/default/" + "Files/Call Center Data.csv")
+cc.head(5)
+
+#renaming columns to exclude spaces
+cc = cc.rename(columns= {"Incoming Calls": "incoming_calls", "Answered Calls": "answered_calls", "Answer Rate": "answer_rate", "Abandoned Calls": "abandoned_calls", "Answer Speed (AVG)": "answer_speed_avg", "Talk Duration (AVG)": "talk_duration_avg", "Waiting Time (AVG)": "waiting_time_avg", "Service Level (20 Seconds)": "servicel_level_20s"})
+
+#drop Index column as it is unnecessary for further analysis in this case
+cc = cc.drop(columns= ["Index"])
+
+# Convert the columns with datetime information to datetime values 
+cc_time = cc.copy()
+cc_time[["answer_speed_avg", "talk_duration_avg", "waiting_time_avg"]] = cc_time[["answer_speed_avg", "talk_duration_avg", "waiting_time_avg"]].apply(pd.to_datetime, errors= "coerce")
+
+#Create Spark Dataframe and write it back to the Lakehouse Tables section for PBI reporting later on
+sparkDF = spark.createDataFrame(cc_time)
+sparkDF.write.mode("overwrite").format("delta").save("Tables/" + "callcenter_processed")
+```
+
+Verify that the file was succeffully written in the table section by clicking on the three dots next to "Tables" and hit "Refresh"
+![alt text](media/verifytable.png)
+
+### 3. Perform some Exploratory Data Analysis
+Let's continue with some EDA to better understand the data and retrieve some insights. You can stay in the current notebook, add the following code and run it:
+
+```Python
+#check the data types to get an overview
+cc_time.dtypes
+
+#check for null values
+cc_time.isnull().sum()
+
+#Converting datetime values into decimals for the hours, minutes, and seconds in order to have useable statistical (float) data 
+cc_timefloat = cc_time.copy()
+cc_timefloat['answer_speed_avg'] =  cc_timefloat['answer_speed_avg'].dt.hour * 60 + cc_timefloat['answer_speed_avg'].dt.minute + cc_timefloat['answer_speed_avg'].dt.second/60
+cc_timefloat['talk_duration_avg'] = cc_timefloat['talk_duration_avg'].dt.hour * 60 + cc_timefloat['talk_duration_avg'].dt.minute + cc_timefloat['talk_duration_avg'].dt.second/60
+cc_timefloat['waiting_time_avg'] = cc_timefloat['waiting_time_avg'].dt.hour * 60 + cc_timefloat['waiting_time_avg'].dt.minute + cc_timefloat['waiting_time_avg'].dt.second/60
+
+#create a correlation matrix to understand how the parameters impact each other
+import seaborn as sns
+from matplotlib import pyplot as plt
+plt.figure(figsize=(15,10)) 
+sns.color_palette("dark", as_cmap=True)
+sns.heatmap(cc_timefloat.corr(), annot=True, cmap='coolwarm', center = 0)
+
+```
+### 4. Transformation with DataFlow Gen2
+We will now make use of the no-/low-code ETL feature inside of "Data Factory" to create a new column. Navigate on the bottom left to the Data Factory workload and click on new DataFlow Gen2
+
+![alt text](media/createdataflow.png)
+
+Take a look at the Table section and locate your file.
+
+4. With the fil
+ Here is a Notebook you can use to perform some Exploratory Data Analysis on the call center analysis data you uploaded into Fabric in step 1. PLACEHOLDER
    - 
-3. Once data is stored in OneLake, it can be used and processed by various engines and therefore people with different skills. For example, merging and pre-processing different data can be achieved in the Spark environment inside the [Synapse Data Engineering experience](https://learn.microsoft.com/en-us/fabric/data-engineering/data-engineering-overview). A data engineer would create within seconds a new lakehouse and a Spark Notebook to transform raw data and get first insights with PySpark, Spark SQL, Spark (Scala), SparkR or HTML. Here is a Notebook you can use to run on the data provided above: PLACEHOLDER
-4.  The pre-processing data can then be used (without duplication!) by the [Synapse Data Warehouse](https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing) to perform some SQL queries. This lake-centric data warehouse provides an environment for any skill level from citizen developer to DBAs or pro devs. With the always connected dataset that is integrated into PowerBI, users can achieve via the so-called Direct Lake mode, lighting-fast data visualization and report creation. With the revamped SQL engine over the open source data format, users can focus on their main tasks for data analysis.
-5.  With the processed dataset, a business analyst (or any other user obivously) can create with the [Fabric PowerBI experience](https://learn.microsoft.com/en-us/power-bi/fundamentals/fabric-get-started) a semantic business model and BI report by accessing the file directly in OneLake. Anyone knowing and having worked with PowerBI before, will feel familiar with this feature.
+5.  The pre-processing data can then be used (without duplication!) by the [Synapse Data Warehouse](https://learn.microsoft.com/en-us/fabric/data-warehouse/data-warehousing) to perform some SQL queries. This lake-centric data warehouse provides an environment for any skill level from citizen developer to DBAs or pro devs. With the always connected dataset that is integrated into PowerBI, users can achieve via the so-called Direct Lake mode, lighting-fast data visualization and report creation. With the revamped SQL engine over the open source data format, users can focus on their main tasks for data analysis.
+6.  With the processed dataset, a business analyst (or any other user obivously) can create with the [Fabric PowerBI experience](https://learn.microsoft.com/en-us/power-bi/fundamentals/fabric-get-started) a semantic business model and BI report by accessing the file directly in OneLake. Anyone knowing and having worked with PowerBI before, will feel familiar with this feature.
 
