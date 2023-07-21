@@ -1,4 +1,4 @@
-![image](https://github.com/itssyd/microsoftfabric_customerserviceanalysis/assets/140058645/fefab6b9-403d-487e-a7cf-b5e5aaeef873)# Customer Service Analysis with Microsoft Fabric
+# Customer Service Analysis with Microsoft Fabric
 This GitHub Repo intends to give an example how to use Microsoft Fabric for the end to end scenario of getting insights into the performance of the sample data set [Call Center Data from Kaggle](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download)
 
 ###### Disclaimer: In order to replicate this analysis, you need to sign up for [Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial)
@@ -128,11 +128,11 @@ if [answer_rate] >= 0 and [answer_rate] < 0.25 then "0-24%"
 
 Verify that the step (custom column) has been added to the flow and you can see also the column in the data preview with inputs. Now we bring this data back to the Lakehouse. On the right bottom click to add a data destination and select "Lakehouse"
 
-![alt text](images/datadestination.png)
+![alt text](media/datadestination.png)
 
 Follow the wizward to authenticate the same way you did for connecting to the data source Lakehouse earlier (beginning of Step 4). Now we will bring the data into a new table in the same Lakehouse but with a different name so we can later on identify the dataset.
 
-![alt text](images/LHdestination.png)
+![alt text](media/LHdestination.png)
 
 Click on next and keep the settings are they are (Update method = replace) and the source types should be correctly identified. Click on save settings. Back on the Power Query screen, locate on the bottom right the "Publish" button and click to publish now.
 
