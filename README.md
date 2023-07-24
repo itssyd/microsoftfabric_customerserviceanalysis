@@ -94,7 +94,7 @@ sns.color_palette("dark", as_cmap=True)
 sns.heatmap(cc_timefloat.corr(), annot=True, cmap='coolwarm', center = 0)
 
 ```
-### 4. Transformation with DataFlow Gen2
+### 4. Data Transformation with DataFlow Gen2 
 We will now make use of the no-/low-code ETL feature inside of "Data Factory" to create a new column. Navigate on the bottom left to the Data Factory workload and click on new DataFlow Gen2
 
 ![alt text](media/createdataflow.png)
@@ -138,6 +138,17 @@ Click on next and keep the settings are they are (Update method = replace) and t
 
 
 ### 5. Create PowerBI Report
-With the always connected dataset that is integrated into PowerBI, users can achieve via the so-called Direct Lake mode, lighting-fast data visualization and report creation. With the revamped SQL engine over the open source data format, users can focus on their main tasks for data analysis.
-6.  With the processed dataset, a business analyst (or any other user obivously) can create with the [Fabric PowerBI experience](https://learn.microsoft.com/en-us/power-bi/fundamentals/fabric-get-started) a semantic business model and BI report by accessing the file directly in OneLake. Anyone knowing and having worked with PowerBI before, will feel familiar with this feature.
+With Microsoft Fabric PowerBI, a new connection mode has been introduced: [Direct Lake Mode]([https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-pbi-reporting](https://learn.microsoft.com/en-us/power-bi/enterprise/directlake-overview)). This capability allows very fast BI visualization on large datasets by loading parquet files directly from the Data Lake into the PBI engine, without the necessity to query a Lakehouse endpoint nor importing data into a PowerBI dataset. In order to create a Direct Lake dataset, we need to go back to our Lakehouse we have been working on in the previous steps (switch back on the left bottom to the Data Engineering icon and select your Lakehouse). From there you should verify that your table transformed in Step 4 with Dataflows Gen2 has been saved. 
+
+Next, click on "New Power BI dataset" and select the table that has been created after Step 4 from the Dataflow transformation (you can verify by spotting the "answer_rate_bucket" column) and click "confirm". 
+
+![alt text](media/newPBIdataset.png)
+
+Now we would have the opportunity to do some data modelling and create relationships between several tables. In this case, we skip it as we just have one table and click on "New Report"
+
+![alt text](media/newreport.png)
+
+By expanding the table on the right side in PowerBI, you can see all the columns. Just by clicking on "answer_rate_bucket" and "answered calls", automatically a visual table is created. Feel free to explore and create further tiles to explore the data
+
+![alt text](media/newtile.png)
 
