@@ -19,11 +19,12 @@ Say suppose an organization is selling B2C products and offers customer service 
 ## Step by Step guide for customer service analysis
 ### 1. Load Data 
 Data Engineers can use the [Data Factory](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial) feature inside of Fabric to ingest, prepare and transform data from other sources and land it into OneLake. In our example, we will upload a local file directly into the Lakehouse
-   - In Fabric, navigate to the Data Engineering experience by clicking on the icon at the bottom left (hint: this is where you switch between all different workloads). I created the "CallCenter_LH" for our example. With the filter button on the right, you can speed up searching for specific artifacts in Fabric. I selected "Lakehouse" to only get listed all Lakehouses I created.
+
+In Fabric, navigate to the Data Engineering experience by clicking on the icon at the bottom left (hint: this is where you switch between all different workloads). I created the "CallCenter_LH" for our example. With the filter button on the right, you can speed up searching for specific artifacts in Fabric. I selected "Lakehouse" to only get listed all Lakehouses I created.
      
 ![alt text](media/enterLH.png)
 
-   - Find under the Home Tab "Get Data" and select "Upload files" as shown in the screenshot below. Continue with uploading the [Call Center dataset](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download) from Kaggle
+Find under the Home Tab "Get Data" and select "Upload files" as shown in the screenshot below. Continue with uploading the [Call Center dataset](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download) from Kaggle
      
 ![alt text](media/uploadfiles.png)
 
