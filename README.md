@@ -19,7 +19,7 @@ To simplify, this example will only take into consideration one csv file, the sa
 3) Now the business analyst would like to visually explore the data and build a PowerBI Report. For this, a quick look at the file stored in the silver layer reveals, that some further data transformation is necessary to create for example new columns or measures that might be helpful in the report. Switching to the Data Factory workload again and leveraging the Dataflows gen2 feature for no-/low-code development supports preparing the data for BI and saving it into the gold/curated layer of the Lakehouse.
 4) Finally, with a cleaned and processed dataset, the business analyst or also business user from any company domain can start creating a PowerBI report by using the PowerBI workload inside of Fabric.
 
-## Prerequisites
+<!--- ## Prerequisites
 - You need a Microsoft Fabric subscription or sign up for a free [Microsoft Fabric (Preview) trial](https://learn.microsoft.com/en-gb/fabric/enterprise/licenses)
 - Sign in to [Microsoft Fabric](https://fabric.microsoft.com/)
 - Use an existing Microsoft Fabric Lakehouse or create a new once by following the steps in this [tutorial](https://learn.microsoft.com/en-gb/fabric/data-engineering/create-lakehouse)
@@ -159,5 +159,5 @@ Now we would have the opportunity to do some data modelling and create relations
 
 By expanding the table on the right side in PowerBI, you can see all the columns. Just by clicking on "answer_rate_bucket" and "answered calls", automatically a visual table is created. Feel free to explore and create further tiles to explore the data
 
-![alt text](media/newtile.png)
+![alt text](media/newtile.png) --->
 
