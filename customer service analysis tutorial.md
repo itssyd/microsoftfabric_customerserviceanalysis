@@ -1,23 +1,24 @@
 ## Prerequisites
+- Download the free and public available [Call Center dataset](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download) from Kaggle
 - You need a Microsoft Fabric subscription or sign up for a free [Microsoft Fabric (Preview) trial](https://learn.microsoft.com/en-gb/fabric/enterprise/licenses)
 - Sign in to [Microsoft Fabric](https://fabric.microsoft.com/)
 - Use an existing Microsoft Fabric Lakehouse or create a new once by following the steps in this [tutorial](https://learn.microsoft.com/en-gb/fabric/data-engineering/create-lakehouse)
 
-## Step by Step guide for customer service analysis
+## Step by Step guide for customer service analysis n Fabric
 ### 1. Load Data 
-Data Engineers can use the [Data Factory](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial) feature inside of Fabric to ingest, prepare and transform data from other sources and land it into OneLake. In our example, we will upload a local file directly into the Lakehouse
+Data Engineers commonly use the [Fabric Data Factory](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial) section to ingest, prepare and transform data from various data sources and land it into OneLake. In our example, we will upload a local file directly into the Lakehouse.
 
-In Fabric, navigate to the Data Engineering experience by clicking on the icon at the bottom left (hint: this is where you switch between all different workloads). I created the "CallCenter_LH" for our example. With the filter button on the right, you can speed up searching for specific artifacts in Fabric. I selected "Lakehouse" to only get listed all Lakehouses I created.
+From fabric.microsoft.com, navigate on the left side and click on "Create" which will open up the page from where you see all items you can create in Fabric. Click on Lakehouse, enter the new name "Callcenter_Lakehouse", leave the "Lakehouse schema" option un-checked and click create.
      
-![alt text](media/enterLH.png)
+![alt text](media/1CREATE.png)
 
-Find under the Home Tab "Get Data" and select "Upload files" as shown in the screenshot below. Continue with uploading the [Call Center dataset](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download) from Kaggle
+Find under the Home Tab "Get Data" and select "Upload files" as shown in the screenshot below. Browse for the folder where you have stored the downloaded file from Kaggle in the ####Prerequisite step and upload it to the Lakehouse. If you haven't done this yet, download [Call Center dataset](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download) from Kaggle now. 
      
-![alt text](media/uploadfiles.png)
+![alt text](media/2UPLOAD.png)
 
-Verify that the data is uploaded successuflly by clicking the "Refresh" icon and locate the csv file under the "Files" section. As the file is in csv format, it is stored under the "Files" section vs the "table" section. The File section can contains various file formats like csvs, images, parquet and more. The "Table" section contains refined and consolidated data that is ready for business analysis in the delta parquet format.
+Verify that the data is uploaded successuflly by clicking the "Refresh" icon on the top left and locate the csv file under the "Files" section. As the file is in csv format, it is stored under the "Files" section instead of the "table" section. The File section can contain various file formats like csvs, images, jsons and more. The "Table" section contains recognized delta parquet tables. 
 
-![alt_text](media/uploadedfile.png)
+![alt_text](media/3CSV.png)
    
 ### 2. Process Data
 Once the data is uploaded, it can be used and processed by other engines within Fabric, e.g. the SQL engine in the Data Warehouse workload or the KQL engine in the Real-Time Analytics workload etc. For example, merging and pre-processing different dataset can be achieved with code in a Spark Notebook inside the [Synapse Data Engineering experience](https://learn.microsoft.com/en-us/fabric/data-engineering/data-engineering-overview) and/or via the no-/low-code approach of Data Flows Gen2 insith the [Data Factory workload](https://learn.microsoft.com/en-us/fabric/data-factory/create-first-dataflow-gen2). We will first process the csv file of "File" section and then load it into a table into the "Table" section with a Spark Notebook. 
