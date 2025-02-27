@@ -5,7 +5,7 @@ This GitHub Repo intends to give an example and walkthrough guide how to use Mic
 
 [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric)
 
-![alt text](media/fabric_overview.png)
+![alt text](Tutorial: Customer Service Analysis/media/fabric_overview.png)
 
 Microsoft Fabric has been generally available since November 2023. Built on existing Microsoft Analytics technologies, it has been significantly redesigned and re-engineered to function as a Software as a Service (SaaS) product, with innovative integrations of generative AI. Fabric supports end-to-end data and analytics scenarios within a unified platform. It covers everything from data integration, pre-processing, and engineering to data science, real-time analysis, and business intelligence. Fabric caters to users with diverse backgrounds and responsibilities by offering both no-/low-code and professional development functionalities. For instance, Data Engineers can create data pipelines with copy activities and schedule batch data loads from source systems to Fabric. Business users, on the other hand, can use Dataflowsgen2 for a no-/low-code approach to connect to data sources, transform data, and store tables/files in Fabric. As illustrated in the picture above, OneLake serves as the foundation for all data brought into and items created in Fabric, acting as the SaaS Data Lake storage. All tabular data is stored in the open-source Delta Parquet format, and all engines (TSQL, Spark, Analysis Services, KQL) have been revamped to natively query this file format.
 
