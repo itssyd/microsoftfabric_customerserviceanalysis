@@ -1,5 +1,5 @@
 # Customer Service Analysis with Microsoft Fabric
-This GitHub Repo intends to give an example and walkthrough guide how to use Microsoft Fabric. We look at a end to end scenario of getting insights into the performance by using the sample dataset from Kaggle [Call Center Data from Kaggle](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download)
+This GitHub Repo intends to give an example and walkthrough guide how to use Microsoft Fabric. We look at a end to end scenario of getting insights into the performance by using the sample dataset from Kaggle [Call Center Data from Kaggle](fabricaitourdemocologne.blob.core.windows.net/sample/Call%20Center%20Data.csv). Clicking on the link will automatically download the csv file to your local computer.
 
 ###### Disclaimer: In order to replicate this analysis, you need to either use a paid Fabric capacity or sign up for a [Microsoft Fabric Trial](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial)
 
@@ -12,7 +12,7 @@ Microsoft Fabric has been generally available since November 2023. Built on exis
 ## Let's look at a concrete example that can be found cross-industry: Customer Service Performance
 We want to closely examine an end-to-end scenario and understand how users with different skill sets get involved. Imagine an organization selling B2C products and offering customer service support for any inquiries, support, or complaints that end users might have. Customers can contact the company's customer service team through various channels: social media, email, chat, or phone calls. As a result, the company gathers a lot of data from different sources in various file formats. The goal is to improve customer service performance and, consequently, increase customer satisfaction. The first crucial step in analyzing support performance is to consolidate all the data gathered from customer interactions in one place. In our example, this place is Microsoft Fabric OneLake, which is optimized for big data analytics workloads and supports storing structured, semi-structured, and unstructured file formats.
 
-To simplify, this example will only take into consideration one sample dataset [Call Center Data from Kaggle](https://www.kaggle.com/datasets/satvicoder/call-center-data?resource=download)
+To simplify, this example will only take into consideration one sample dataset [Call Center Data from Kaggle](https://fabricaitourdemocologne.blob.core.windows.net/sample/Call%20Center%20Data.csv)
 
 ## How does the workflow look like?
 1) A data engineer integrades data from various sources into one place, landing the data in a bronze/raw zone in a Lakehouse (following a [Medallion Architecture](https://learn.microsoft.com/en-us/azure/databricks/lakehouse/medallion)) by leveraging the data integration features of Microsoft Fabric Data Factory
