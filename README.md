@@ -15,15 +15,15 @@ We want to closely examine an end-to-end scenario and understand how users with 
 To simplify, this example will only take into consideration one sample dataset [Call Center Data from Kaggle](https://fabricaitourdemocologne.blob.core.windows.net/sample/Call%20Center%20Data.csv)
 
 ## How does the workflow look like?
-1) A data engineer integrades data from various sources into one place, landing the data in a bronze/raw zone in a Lakehouse (following a [Medallion Architecture](https://learn.microsoft.com/en-us/azure/databricks/lakehouse/medallion)) by leveraging the data integration features of Microsoft Fabric Data Factory
-2) The data engineer continues to better understand the dataset and conducts Exploratory Data Analyis (EDA) in a Spark Notebook. Any data cleansing steps and ensuring high data quality would happen before saving the refined data in a silver/curated Table inside of the Lakehouse or in a new one.
-3) Now a business analyst would like to visually explore the data and build a PowerBI Report. The data in the silver layer requires the last steps of transformation by removing unnecessary columns for example and aggregating specific information. Dataflowsgen2, as an item in Fabric, come in handy for the last transformation steps in a no/low-code approach storing the tables into the gold/curated layer of the Lakehouse.
-4) Finally, with a cleaned and processed dataset, the business analyst or also end user from any bsuiness domain can start data modeling to establish the semantics of various tables and create a PowerBI report by using the PowerBI workload inside of Fabric.
+1) Typically, a data engineer integrades data from various sources into one place, landing the data in a bronze/raw zone in a Lakehouse (following a [Medallion Architecture](https://learn.microsoft.com/en-us/azure/databricks/lakehouse/medallion)) by leveraging the data integration features of Microsoft Fabric Data Factory. To simplify, we will upload the dataset directly into Fabric.
+2) The data engineer continues to better understand the dataset and conducts Exploratory Data Analyis (EDA) in a Spark Notebook. Any data cleansing steps and ensuring high data quality would happen before saving the refined data in a silver/curated Table inside of the Lakehouse.
+3) Now, a business analyst would like to visually explore the data and build a PowerBI Report. The data in the silver layer requires the last steps of transformation by removing unnecessary columns for example and aggregating specific information or creating new columns. Dataflowsgen2, as an item in Fabric, come in handy for the last transformation steps in a no/low-code approach storing the tables into the gold/curated layer of the Lakehouse as a Delta Parquet Table.
+4) Finally, with a cleaned and processed dataset, the business analyst or also end user from any business domain can start data modeling to establish the semantics of various tables and create a PowerBI report by using the PowerBI workload inside of Fabric.
 
 <!--- ## Prerequisites
-- You need a Microsoft Fabric subscription or sign up for a free [Microsoft Fabric Trial](https://learn.microsoft.com/en-gb/fabric/enterprise/licenses)
-- Sign in to [Microsoft Fabric](https://fabric.microsoft.com/)
-- Navigate on the left side to the "Create" button and create a new Lakehouse by following the steps in this [tutorial](https://learn.microsoft.com/en-gb/fabric/data-engineering/create-lakehouse)
+- You need an existing Microsoft Fabric capacity or sign up for a free [Microsoft Fabric Trial](https://learn.microsoft.com/en-gb/fabric/enterprise/licenses)
+- Sign in to [Microsoft Fabric](https://app.fabric.microsoft.com/)
+- Navigate on the left side to the "Create" button and create a new Lakehouse by following the steps in this [tutorial](https://learn.microsoft.com/en-gb/fabric/data-engineering/create-lakehouse). If you cannot find the "Create" button, check the 3 dots on the left navigation bar - it might be hiden there.
 
 ## Step by Step guide for customer service analysis
 ### 1. Load Data 
