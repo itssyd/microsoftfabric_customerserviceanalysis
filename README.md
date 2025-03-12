@@ -1,5 +1,5 @@
 # Customer Service Analysis with Microsoft Fabric
-This GitHub Repo intends to give an example usecase and step by step walkthrough on how to use Microsoft Fabric. We look at a end to end scenario of getting insights into the service performance of a support call center by using a public available sample dataset from Kaggle that you can download easily by clicking on the dataset: [Call Center Data](fabricaitourdemocologne.blob.core.windows.net/sample/Call%20Center%20Data.csv). Clicking on the link will automatically download the csv file to your local computer.
+This GitHub Repo intends to give an example usecase and step by step walkthrough on how to use Microsoft Fabric. We look at a end to end scenario of getting insights into the service performance of a support call center by using a public available sample dataset from Kaggle that you can download easily by clicking on the dataset: [Call Center Data](https://fabricaitourdemocologne.blob.core.windows.net/sample/Call%20Center%20Data.csv). Clicking on the link will automatically download the csv file to your local computer.
 
 ###### Disclaimer: In order to replicate this analysis, you need to either use a paid Fabric capacity or sign up for a [Microsoft Fabric Trial](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial)
 
